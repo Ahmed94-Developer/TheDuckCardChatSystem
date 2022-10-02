@@ -1,19 +1,16 @@
-package com.example.theduckcardchatsystem.ui.contacts;
+package com.example.theduckcardchatsystem.ui.contacts
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 
-public class ContactsViewModel extends ViewModel {
+class ContactsViewModel : ViewModel() {
+    private val mText: MutableLiveData<String>
+    val text: LiveData<String>
+        get() = mText
 
-    private MutableLiveData<String> mText;
-
-    public ContactsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is dashboard fragment");
-    }
-
-    public LiveData<String> getText() {
-        return mText;
+    init {
+        mText = MutableLiveData()
+        mText.value = "This is dashboard fragment"
     }
 }

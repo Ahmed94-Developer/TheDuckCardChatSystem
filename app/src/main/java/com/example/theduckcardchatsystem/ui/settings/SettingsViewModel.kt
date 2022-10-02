@@ -1,18 +1,16 @@
-package com.example.theduckcardchatsystem.ui.settings;
+package com.example.theduckcardchatsystem.ui.settings
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.LiveData
 
-public class SettingsViewModel extends ViewModel {
-    private MutableLiveData<String> mText;
+class SettingsViewModel : ViewModel() {
+    private val mText: MutableLiveData<String>
+    val text: LiveData<String>
+        get() = mText
 
-    public SettingsViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is settings fragment");
-    }
-
-    public LiveData<String> getText() {
-        return mText;
+    init {
+        mText = MutableLiveData()
+        mText.value = "This is settings fragment"
     }
 }

@@ -1,92 +1,77 @@
-package com.example.theduckcardchatsystem.ui.room.repository;
+package com.example.theduckcardchatsystem.ui.room.repository
 
-import android.app.Application;
-import android.os.AsyncTask;
+import android.app.Application
+import com.example.theduckcardchatsystem.ui.room.database.MembersDataBase.Companion.getInstance
+import com.example.theduckcardchatsystem.ui.room.database.MembersDataBase.membersDao
+import com.example.theduckcardchatsystem.ui.room.dao.MembersDao.membersId
+import com.example.theduckcardchatsystem.ui.room.dao.MembersDao.insertId
+import com.example.theduckcardchatsystem.ui.room.dao.MembersDao.updateId
+import com.example.theduckcardchatsystem.ui.room.dao.MembersDao.DeleteId
+import com.example.theduckcardchatsystem.ui.room.dao.MembersDao.deleteAll
+import com.example.theduckcardchatsystem.ui.room.dao.MembersDao
+import androidx.lifecycle.LiveData
+import com.example.theduckcardchatsystem.ui.model.MembersId
+import com.example.theduckcardchatsystem.ui.room.repository.MembersIdRepository.InsertAsyncTask
+import com.example.theduckcardchatsystem.ui.room.repository.MembersIdRepository.UpdateAsyncTask
+import com.example.theduckcardchatsystem.ui.room.repository.MembersIdRepository.deleteAsyncTask
+import com.example.theduckcardchatsystem.ui.room.repository.MembersIdRepository.deleteAllAsyncTask
+import android.os.AsyncTask
+import com.example.theduckcardchatsystem.ui.room.database.MembersDataBase
 
-import androidx.lifecycle.LiveData;
-
-import com.example.theduckcardchatsystem.ui.model.MembersId;
-import com.example.theduckcardchatsystem.ui.room.dao.MembersDao;
-import com.example.theduckcardchatsystem.ui.room.database.MembersDataBase;
-
-import java.util.List;
-
-public class MembersIdRepository {
-    private MembersDao membersDao;
-    private LiveData<List<MembersId>> membersIdLiveData;
-
-    public MembersIdRepository(Application application){
-       MembersDataBase membersDataBase = MembersDataBase.getInstance(application);
-        membersDao = membersDataBase.membersDao();
-        membersIdLiveData = membersDao.getMembersId();
+class MembersIdRepository(application: Application?) {
+    private val membersDao: MembersDao
+    val liveMembersId: LiveData<List<MembersId?>?>?
+    fun insert(membersId: MembersId?) {
+        InsertAsyncTask(membersDao).execute(membersId)
     }
-    public void insert(MembersId membersId){
-        new InsertAsyncTask(membersDao).execute(membersId);
 
+    fun Update(membersId: MembersId?) {
+        UpdateAsyncTask(membersDao).execute(membersId)
     }
-    public void Update(MembersId membersId){
-        new UpdateAsyncTask(membersDao).execute(membersId);
+
+    fun delete(membersId: MembersId?) {
+        deleteAsyncTask(membersDao).execute(membersId)
     }
-    public void delete(MembersId membersId){
-        new deleteAsyncTask(membersDao).execute(membersId);
+
+    fun deleteAll() {
+        deleteAllAsyncTask(membersDao).execute()
     }
-    public void deleteAll(){
-        new deleteAllAsyncTask(membersDao).execute();
-    }
-    public LiveData<List<MembersId>> getLiveMembersId(){
-        return membersIdLiveData;
-    }
-    private static class InsertAsyncTask extends AsyncTask<MembersId,Void,Void> {
-        private MembersDao membersDao;
 
-        public InsertAsyncTask(MembersDao membersDao) {
-            this.membersDao = membersDao;
-        }
-
-        @Override
-        protected Void doInBackground(MembersId... membersIds) {
-            membersDao.insertId(membersIds[0]);
-            return null;
-        }
-    }
-    private static class UpdateAsyncTask extends AsyncTask<MembersId,Void,Void>{
-        private MembersDao membersDao;
-
-        public UpdateAsyncTask(MembersDao membersDao) {
-            this.membersDao = membersDao;
-        }
-
-        @Override
-        protected Void doInBackground(MembersId... membersIds) {
-            membersDao.updateId(membersIds[0]);
-            return null;
-        }
-    }
-    private static class deleteAsyncTask extends AsyncTask<MembersId,Void,Void>{
-        private MembersDao membersDao;
-
-        public deleteAsyncTask(MembersDao membersDao) {
-            this.membersDao = membersDao;
-        }
-
-        @Override
-        protected Void doInBackground(MembersId... membersIds) {
-            membersDao.DeleteId(membersIds[0]);
-            return null;
-        }
-    }
-    private static class deleteAllAsyncTask extends AsyncTask<Void,Void,Void>{
-        private MembersDao membersDao;
-
-        public deleteAllAsyncTask(MembersDao membersDao) {
-            this.membersDao= membersDao;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            membersDao.deleteAll();
-            return null;
+    private class InsertAsyncTask(private val membersDao: MembersDao) :
+        AsyncTask<MembersId?, Void?, Void?>() {
+        protected override fun doInBackground(vararg membersIds: MembersId): Void? {
+            membersDao.insertId(membersIds[0])
+            return null
         }
     }
 
+    private class UpdateAsyncTask(private val membersDao: MembersDao) :
+        AsyncTask<MembersId?, Void?, Void?>() {
+        protected override fun doInBackground(vararg membersIds: MembersId): Void? {
+            membersDao.updateId(membersIds[0])
+            return null
+        }
+    }
+
+    private class deleteAsyncTask(private val membersDao: MembersDao) :
+        AsyncTask<MembersId?, Void?, Void?>() {
+        protected override fun doInBackground(vararg membersIds: MembersId): Void? {
+            membersDao.DeleteId(membersIds[0])
+            return null
+        }
+    }
+
+    private class deleteAllAsyncTask(private val membersDao: MembersDao) :
+        AsyncTask<Void?, Void?, Void?>() {
+        protected override fun doInBackground(vararg voids: Void): Void? {
+            membersDao.deleteAll()
+            return null
+        }
+    }
+
+    init {
+        val membersDataBase = getInstance(application!!)
+        membersDao = membersDataBase!!.membersDao()
+        liveMembersId = membersDao.membersId
+    }
 }

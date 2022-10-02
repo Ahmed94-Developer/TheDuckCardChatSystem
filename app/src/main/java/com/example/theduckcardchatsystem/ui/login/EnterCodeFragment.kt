@@ -1,77 +1,69 @@
-package com.example.theduckcardchatsystem.ui.login;
+package com.example.theduckcardchatsystem.ui.login
 
-import android.os.Bundle;
+import butterknife.BindView
+import com.example.theduckcardchatsystem.R
+import android.widget.EditText
+import com.example.theduckcardchatsystem.viewmodel.EnterCodeViewModel
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import butterknife.ButterKnife
+import androidx.lifecycle.ViewModelProvider
+import android.text.TextWatcher
+import android.text.Editable
+import android.view.View
+import androidx.fragment.app.Fragment
+import com.example.theduckcardchatsystem.ui.login.LoginActivity
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.PhoneAuthCredential
+import com.google.firebase.auth.PhoneAuthProvider
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-
-import com.example.theduckcardchatsystem.R;
-import com.example.theduckcardchatsystem.viewmodel.EnterCodeViewModel;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthProvider;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-
-public class EnterCodeFragment extends Fragment {
+class EnterCodeFragment : Fragment {
+    @JvmField
     @BindView(R.id.register_input)
-    EditText registerInputTxt;
-    EnterCodeViewModel enterCodeViewModel;
-    private String phoneNumber,id;
-    private PhoneAuthCredential credential;
+    var registerInputTxt: EditText? = null
+    var enterCodeViewModel: EnterCodeViewModel? = null
+    private var phoneNumber: String? = null
+    private var id: String? = null
+    private var credential: PhoneAuthCredential? = null
 
-
-    public EnterCodeFragment() {
+    constructor() {
         // Required empty public constructor
     }
 
-    public EnterCodeFragment(String phoneNumber, String id) {
-        this.phoneNumber = phoneNumber;
-        this.id = id;
+    constructor(phoneNumber: String?, id: String?) {
+        this.phoneNumber = phoneNumber
+        this.id = id
     }
 
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_enter_code, container, false);
-        ButterKnife.bind(this,view);
-        FirebaseApp.initializeApp(getActivity());
-        enterCodeViewModel = new ViewModelProvider(this,ViewModelProvider
-                .AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EnterCodeViewModel.class);
-
-        registerInputTxt.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String num = registerInputTxt.getText().toString();
-                if (num.length() == 6) {
-                    String code = registerInputTxt.getText().toString();
-                    credential = PhoneAuthProvider.getCredential(id, code);
-                    LoginActivity activity = (LoginActivity) getActivity();
-                    enterCodeViewModel.EnterCode(credential,phoneNumber,activity);
+        val view = inflater.inflate(R.layout.fragment_enter_code, container, false)
+        ButterKnife.bind(this, view)
+        FirebaseApp.initializeApp(activity!!)
+        enterCodeViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(
+                activity!!.application
+            )
+        ).get(
+            EnterCodeViewModel::class.java
+        )
+        registerInputTxt!!.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+            override fun afterTextChanged(editable: Editable) {
+                val num = registerInputTxt!!.text.toString()
+                if (num.length == 6) {
+                    val code = registerInputTxt!!.text.toString()
+                    credential = PhoneAuthProvider.getCredential(id!!, code)
+                    val activity = activity as LoginActivity?
+                    enterCodeViewModel!!.EnterCode(credential, phoneNumber, activity)
                 }
             }
-        });
-        return view;
+        })
+        return view
     }
 }

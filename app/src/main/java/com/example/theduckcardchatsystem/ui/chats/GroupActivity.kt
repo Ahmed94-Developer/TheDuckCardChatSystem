@@ -1,225 +1,202 @@
-package com.example.theduckcardchatsystem.ui.chats;
+package com.example.theduckcardchatsystem.ui.chats
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AppCompatActivity
+import com.example.theduckcardchatsystem.viewmodel.GroupChatViewModel
+import android.os.Bundle
+import butterknife.BindView
+import com.example.theduckcardchatsystem.R
+import android.widget.EditText
+import androidx.recyclerview.widget.RecyclerView
+import butterknife.ButterKnife
+import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
+import android.content.SharedPreferences
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import butterknife.OnClick
+import android.widget.Toast
+import com.example.theduckcardchatsystem.repository.GroupChatRepository
+import android.content.Intent
+import com.theartofdev.edmodo.cropper.CropImage
+import android.app.Activity
+import android.util.Base64
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.widget.Toolbar
+import com.example.theduckcardchatsystem.viewmodel.SettingsViewModel
+import com.google.firebase.database.DatabaseReference
+import com.theartofdev.edmodo.cropper.CropImageView
+import de.hdodenhof.circleimageview.CircleImageView
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.io.UnsupportedEncodingException
+import java.security.InvalidKeyException
+import javax.crypto.BadPaddingException
+import javax.crypto.Cipher
+import javax.crypto.IllegalBlockSizeException
 
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
+class GroupActivity : AppCompatActivity() {
+    private var groupChatViewModel: GroupChatViewModel? = null
+    private var bundle: Bundle? = null
+    private var id: String? = null
+    private var fullName: String? = null
+    private var uid: String? = null
+    private var photo: String? = null
+    private val TYPE_CHAT = "chat"
+    private val TYPE_TEXT = "text"
 
-import com.example.theduckcardchatsystem.HomeActivity;
-import com.example.theduckcardchatsystem.R;
-import com.example.theduckcardchatsystem.ui.model.CommonModel;
-import com.example.theduckcardchatsystem.ui.model.User;
-import com.example.theduckcardchatsystem.viewmodel.GroupChatViewModel;
-import com.example.theduckcardchatsystem.viewmodel.SettingsViewModel;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.theartofdev.edmodo.cropper.CropImage;
-import com.theartofdev.edmodo.cropper.CropImageView;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.text.style.TtsSpan.TYPE_TEXT;
-import static com.example.theduckcardchatsystem.repository.GroupChatRepository.cipher;
-import static com.example.theduckcardchatsystem.repository.GroupChatRepository.secretKeySpec;
-
-public class GroupActivity extends AppCompatActivity {
-    private GroupChatViewModel groupChatViewModel;
-    private Bundle bundle;
-    private String id,fullName,uid,photo;
-    private String TYPE_CHAT = "chat";
-    private String TYPE_TEXT = "text";
+    @JvmField
     @BindView(R.id.chat_input_message)
-    EditText inputMessageTxt;
-    private SettingsViewModel settingsViewModel;
-    private String imageSender,UserName;
+    var inputMessageTxt: EditText? = null
+    private val settingsViewModel: SettingsViewModel? = null
+    private val imageSender: String? = null
+    private val UserName: String? = null
+
+    @JvmField
     @BindView(R.id.chat_recycle_view)
-    RecyclerView recyclerView;
-    private DatabaseReference reference;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_group);
-        ButterKnife.bind(this);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        TextView fullNameTxt = toolbar.findViewById(R.id.contact_fullname);
-        CircleImageView imageView = toolbar.findViewById(R.id.toolbar_image);
-        toolbar.inflateMenu(R.menu.single_chat_action_menu);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        groupChatViewModel = new ViewModelProvider(this,ViewModelProvider
-                .AndroidViewModelFactory.getInstance(getApplication())).get(GroupChatViewModel.class);
-
-        bundle = getIntent().getExtras();
-        if (bundle != null){
-            id = bundle.getString("id");
-            fullName = bundle.getString("fullName");
-            uid = bundle.getString("uid");
-            photo = bundle.getString("photo");
-            fullNameTxt.setText(fullName);
-            String imageDataBytes = "";
-            SharedPreferences.Editor editor = getSharedPreferences("ids",MODE_PRIVATE).edit();
-            editor.putString("id",id);
-            editor.apply();
-
-            if (photo.equals("empty")){
-              //  imageDataBytes = "empty";
-                imageView.setImageResource(R.drawable.ic_grop);
-
-            }else {
-                fullNameTxt.setText(fullName);
-
-                imageDataBytes = photo.substring(photo.indexOf(",")+1);
-                InputStream stream = new ByteArrayInputStream(Base64.decode(imageDataBytes.getBytes(), Base64.DEFAULT));
-                Bitmap bitmap = BitmapFactory.decodeStream(stream);
-                imageView.setImageBitmap(bitmap);
+    var recyclerView: RecyclerView? = null
+    private val reference: DatabaseReference? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_group)
+        ButterKnife.bind(this)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        val fullNameTxt = toolbar.findViewById<TextView>(R.id.contact_fullname)
+        val imageView = toolbar.findViewById<CircleImageView>(R.id.toolbar_image)
+        toolbar.inflateMenu(R.menu.single_chat_action_menu)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        groupChatViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory.getInstance(
+                application
+            )
+        ).get(
+            GroupChatViewModel::class.java
+        )
+        bundle = intent.extras
+        if (bundle != null) {
+            id = bundle!!.getString("id")
+            fullName = bundle!!.getString("fullName")
+            uid = bundle!!.getString("uid")
+            photo = bundle!!.getString("photo")
+            fullNameTxt.text = fullName
+            var imageDataBytes = ""
+            val editor = getSharedPreferences("ids", MODE_PRIVATE).edit()
+            editor.putString("id", id)
+            editor.apply()
+            if (photo == "empty") {
+                //  imageDataBytes = "empty";
+                imageView.setImageResource(R.drawable.ic_grop)
+            } else {
+                fullNameTxt.text = fullName
+                imageDataBytes = photo!!.substring(photo!!.indexOf(",") + 1)
+                val stream: InputStream = ByteArrayInputStream(
+                    Base64.decode(
+                        imageDataBytes.toByteArray(),
+                        Base64.DEFAULT
+                    )
+                )
+                val bitmap = BitmapFactory.decodeStream(stream)
+                imageView.setImageBitmap(bitmap)
             }
-
         }
-        groupChatViewModel.initRecyclerView(id,recyclerView,this);
-
+        groupChatViewModel!!.initRecyclerView(id, recyclerView, this)
     }
+
     @OnClick(R.id.chat_btn_send_message)
-        void ChatSendMessage() {
-        String message = inputMessageTxt.getText().toString();
+    fun ChatSendMessage() {
+        val message = inputMessageTxt!!.text.toString()
         if (message.isEmpty()) {
-            Toast.makeText(GroupActivity.this, "Enter your Message", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this@GroupActivity, "Enter your Message", Toast.LENGTH_SHORT).show()
         } else {
-            groupChatViewModel.sendMessage(AESEncryptionMethod(message), id, TYPE_TEXT);
+            groupChatViewModel!!.sendMessage(AESEncryptionMethod(message), id, TYPE_TEXT)
         }
-        groupChatViewModel.saveToMainList(id,"group");
-        inputMessageTxt.setText("");
-
+        groupChatViewModel!!.saveToMainList(id, "group")
+        inputMessageTxt!!.setText("")
     }
+
     @OnClick(R.id.chat_btn_attach)
-    void attachImageChatBtn(){
-        attachImage();
+    fun attachImageChatBtn() {
+        attachImage()
     }
 
-
-    public String AESEncryptionMethod(String string){
-        byte [] stringByte = string.getBytes();
-        byte [] encrypteByte = new byte[stringByte.length];
-
+    fun AESEncryptionMethod(string: String): String? {
+        val stringByte = string.toByteArray()
+        var encrypteByte: ByteArray? = ByteArray(stringByte.size)
         try {
-            cipher.init(Cipher.ENCRYPT_MODE,secretKeySpec);
-            encrypteByte = cipher.doFinal(stringByte);
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            e.printStackTrace();
+            GroupChatRepository.cipher!!.init(
+                Cipher.ENCRYPT_MODE,
+                GroupChatRepository.secretKeySpec
+            )
+            encrypteByte = GroupChatRepository.cipher!!.doFinal(stringByte)
+        } catch (e: InvalidKeyException) {
+            e.printStackTrace()
+        } catch (e: BadPaddingException) {
+            e.printStackTrace()
+        } catch (e: IllegalBlockSizeException) {
+            e.printStackTrace()
         }
-        String returnString = null;
+        var returnString: String? = null
         try {
-            returnString = new String(encrypteByte,"ISO-8859-1");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            returnString = String(encrypteByte!!, "ISO-8859-1")
+        } catch (e: UnsupportedEncodingException) {
+            e.printStackTrace()
         }
-        return returnString;
-
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.single_chat_action_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+        return returnString
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.single_chat_action_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
 
-        switch (item.getItemId()) {
-            case R.id.menu_clear_chat:
-                groupChatViewModel.ClearChat(id);
-               // finish();
-                break;
-            case R.id.menu_delete_chat:
-               groupChatViewModel.DeleteChat(id);
-               // finish();
-                break;
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_clear_chat -> groupChatViewModel!!.ClearChat(id)
+            R.id.menu_delete_chat -> groupChatViewModel!!.DeleteChat(id)
         }
-        return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item)
     }
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            val result = CropImage.getActivityResult(data)
             if (resultCode == RESULT_OK) {
-                Uri resultUri = result.getUri();
-                String path1 = resultUri.getPath();
-
-                Bitmap bitmap = BitmapFactory.decodeFile(path1);
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                val resultUri = result.uri
+                val path1 = resultUri.path
+                val bitmap = BitmapFactory.decodeFile(path1)
+                val byteArrayOutputStream = ByteArrayOutputStream()
                 // In case you want to compress your image, here it's at 40%
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteArrayOutputStream);
-                byte[] byteArray = byteArrayOutputStream.toByteArray();
-
-                String photoString = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 40, byteArrayOutputStream)
+                val byteArray = byteArrayOutputStream.toByteArray()
+                val photoString = Base64.encodeToString(byteArray, Base64.DEFAULT)
 
                 //   String messageKey = reference.child(NODE_MESSAGES).child(CURRENT_UID)
                 //         .child(commonModel.getUid()).push().getKey().toString();
-
-                groupChatViewModel.sendImageAsMessage(photoString,id);
-
-
-
+                groupChatViewModel!!.sendImageAsMessage(photoString, id)
             } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
-                Exception error = result.getError();
+                val error = result.error
             }
         }
     }
-    private void attachImage(){
+
+    private fun attachImage() {
         CropImage.activity()
-                .setAspectRatio(1,1)
-                .setRequestedSize(600,600)
-                .setCropShape(CropImageView.CropShape.OVAL)
-                .start(this);
+            .setAspectRatio(1, 1)
+            .setRequestedSize(600, 600)
+            .setCropShape(CropImageView.CropShape.OVAL)
+            .start(this)
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        this.finish();
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

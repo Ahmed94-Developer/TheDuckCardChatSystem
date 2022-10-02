@@ -1,26 +1,23 @@
-package com.example.theduckcardchatsystem.ui.room.dao;
+package com.example.theduckcardchatsystem.ui.room.dao
 
-import androidx.lifecycle.LiveData;
-import androidx.room.Dao;
-import androidx.room.Delete;
-import androidx.room.Insert;
-import androidx.room.Query;
-import androidx.room.Update;
-
-import com.example.theduckcardchatsystem.ui.model.MembersId;
-
-import java.util.List;
+import com.example.theduckcardchatsystem.ui.model.MembersId
+import androidx.lifecycle.LiveData
+import androidx.room.*
 
 @Dao
-public interface MembersDao {
+interface MembersDao {
     @Insert
-    void insertId(MembersId membersId);
+    fun insertId(membersId: MembersId?)
+
     @Update
-    void updateId(MembersId membersId);
+    fun updateId(membersId: MembersId?)
+
     @Delete
-    void DeleteId(MembersId membersId);
-    @Query("SELECT *FROM members_table")
-    LiveData<List<MembersId>> getMembersId();
+    fun DeleteId(membersId: MembersId?)
+
+    @get:Query("SELECT *FROM members_table")
+    val membersId: LiveData<List<MembersId?>?>?
+
     @Query("DELETE FROM members_table")
-    void deleteAll();
+    fun deleteAll()
 }

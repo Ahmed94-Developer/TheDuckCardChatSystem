@@ -1,70 +1,66 @@
-package com.example.theduckcardchatsystem.ui.login;
+package com.example.theduckcardchatsystem.ui.login
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
+import android.content.Context
+import butterknife.BindView
+import com.example.theduckcardchatsystem.R
+import android.widget.EditText
+import com.example.theduckcardchatsystem.viewmodel.EnterPhoneViewModel
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.os.Bundle
+import butterknife.ButterKnife
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
+import androidx.lifecycle.ViewModelProvider
+import butterknife.OnClick
+import android.widget.Toast
+import com.example.theduckcardchatsystem.ui.login.LoginActivity
+import android.content.SharedPreferences
+import android.view.View
+import androidx.fragment.app.Fragment
 
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.text.InputFilter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.example.theduckcardchatsystem.R;
-import com.example.theduckcardchatsystem.viewmodel.EnterPhoneViewModel;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-public class EnterPhoneFragment extends Fragment  {
+class EnterPhoneFragment : Fragment() {
+    @JvmField
     @BindView(R.id.code_txt)
-    EditText codeTxt;
+    var codeTxt: EditText? = null
+
+    @JvmField
     @BindView(R.id.register_input_phone_number)
-    EditText registerInputPhoneNumber;
-    EnterPhoneViewModel enterPhoneViewModel;
-
-
-    public EnterPhoneFragment() {
-        // Required empty public constructor
-    }
-
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    var registerInputPhoneNumber: EditText? = null
+    var enterPhoneViewModel: EnterPhoneViewModel? = null
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_enter_phone, container, false);
-        ButterKnife.bind(this,view);
-
-        codeTxt.setFilters(new InputFilter[] {new InputFilter.LengthFilter(4)});
-        registerInputPhoneNumber.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10)});
-        enterPhoneViewModel = new ViewModelProvider(this,ViewModelProvider.AndroidViewModelFactory
-                .getInstance(getActivity().getApplication())).get(EnterPhoneViewModel.class);
-        return view;
+        val view = inflater.inflate(R.layout.fragment_enter_phone, container, false)
+        ButterKnife.bind(this, view)
+        codeTxt!!.filters = arrayOf<InputFilter>(LengthFilter(4))
+        registerInputPhoneNumber!!.filters = arrayOf<InputFilter>(LengthFilter(10))
+        enterPhoneViewModel = ViewModelProvider(
+            this, ViewModelProvider.AndroidViewModelFactory
+                .getInstance(activity!!.application)
+        ).get(EnterPhoneViewModel::class.java)
+        return view
     }
+
     @OnClick(R.id.register_btn_next)
-    public void btnRegisterOnClick(){
-        if (registerInputPhoneNumber.getText().toString().isEmpty()
-                || codeTxt.getText().toString().isEmpty() ){
-            Toast.makeText(getActivity(), "Enter Correct Phone Number", Toast.LENGTH_SHORT).show();
-        }else if (!codeTxt.getText().toString().contains("+")) {
-            Toast.makeText(getActivity(), "country code should contain +", Toast.LENGTH_SHORT).show();
-        }else {
-            LoginActivity activity = (LoginActivity) getActivity();
-
-           String phoneNumber = codeTxt.getText().toString() +
-           registerInputPhoneNumber.getText().toString();
-            SharedPreferences.Editor editor = getActivity().getSharedPreferences("phoneNumber", Context.MODE_PRIVATE).edit();
-            editor.putString("phones",phoneNumber);
-            editor.apply();
-           enterPhoneViewModel.EnterPhone(phoneNumber,activity);
-
+    fun btnRegisterOnClick() {
+        if (registerInputPhoneNumber!!.text.toString().isEmpty()
+            || codeTxt!!.text.toString().isEmpty()
+        ) {
+            Toast.makeText(activity, "Enter Correct Phone Number", Toast.LENGTH_SHORT).show()
+        } else if (!codeTxt!!.text.toString().contains("+")) {
+            Toast.makeText(activity, "country code should contain +", Toast.LENGTH_SHORT).show()
+        } else {
+            val activity = activity as LoginActivity?
+            val phoneNumber = codeTxt!!.text.toString() +
+                    registerInputPhoneNumber!!.text.toString()
+            val editor =
+                getActivity()!!.getSharedPreferences("phoneNumber", Context.MODE_PRIVATE).edit()
+            editor.putString("phones", phoneNumber)
+            editor.apply()
+            enterPhoneViewModel!!.EnterPhone(phoneNumber, activity)
         }
     }
-
 }
