@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.settings.ChangeNameActivity"
+    android:background="#E4FAFF"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditText
+        android:id="@+id/settings_input_name"
+        android:layout_width="0dp"
+        android:layout_height="35sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/chat_edit_shape"
+        android:ems="10"
+        android:fontFamily="@font/abr"
+        android:hint="FirstName "
+        android:inputType="textPersonName"
+        android:paddingLeft="3sp"
+        android:textColor="#000"
+        android:textColorHint="#8F8F8F"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/settings_input_sur_name"
+        android:layout_width="0dp"
+        android:layout_height="35sp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/chat_edit_shape"
+        android:ems="10"
+        android:fontFamily="@font/abr"
+        android:hint="SurName"
+        android:inputType="textPersonName"
+        android:paddingLeft="3sp"
+        android:textColor="#000"
+        android:textColorHint="#8F8F8F"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/settings_input_name" />
+</androidx.constraintlayout.widget.ConstraintLayout>

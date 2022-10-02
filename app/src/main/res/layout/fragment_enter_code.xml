@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.login.EnterCodeFragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <ImageView
+            android:id="@+id/register_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="175dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="176dp"
+            android:src="@drawable/ic_dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:contentDescription="TODO"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="175dp"
+            android:layout_marginRight="176dp" />
+
+        <TextView
+            android:id="@+id/register_text_enter_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+
+            android:fontFamily="@font/abr"
+            android:gravity="center"
+            android:text="Enter Code"
+            android:textColor="#000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_image" />
+
+        <TextView
+            android:id="@+id/register_txt_we_sent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/abr"
+            android:gravity="center"
+            android:text="Please Wait Until You Receive OTP On Your Phone in a Few Seconds"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/register_text_enter_code" />
+
+        <EditText
+            android:id="@+id/register_input"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:fontFamily="@font/abr"
+            android:autofillHints=""
+            android:gravity="center"
+            android:textColor="#000"
+            android:hint="— — — — — —"
+            android:maxLength="6"
+            android:textColorHint="#000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/register_txt_we_sent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_chat"
+    tools:context=".ui.chats.SingleChatActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#133E3E"
+        app:theme="@style/Theme.MyFancyTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/toolbar_image"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                app:srcCompat="@drawable/ic_avatar"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="2dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/contact_fullname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4sp"
+                android:fontFamily="@font/abr"
+                android:textColor="#FFFF"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/toolbar_image"
+                app:layout_constraintTop_toTopOf="@id/toolbar_image"
+                tools:text="Yura Petrov"
+                android:layout_marginLeft="10dp" />
+
+            <TextView
+                android:id="@+id/contact_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/abr"
+                android:textColor="#FFFF"
+                android:textSize="10sp"
+                app:layout_constraintStart_toEndOf="@id/toolbar_image"
+                app:layout_constraintTop_toBottomOf="@id/contact_fullname"
+                tools:text="Status"
+                android:layout_marginLeft="10dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chat_recycle_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="7dp"
+        android:background="@drawable/bg_chat"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toTopOf="@+id/linear_chat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        tools:listitem="@layout/message_item" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/chat_btn_send_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="10dp"
+        android:background="#00685F"
+        android:backgroundTint="#00685F"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linear_chat"
+        app:srcCompat="@drawable/ic_sendhidden" />
+
+    <LinearLayout
+        android:id="@+id/linear_chat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="7sp"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginRight="7dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/editor_type_txt_bg"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/chat_btn_send_message"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <EditText
+            android:id="@+id/chat_input_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:layout_marginRight="10sp"
+            android:background="@drawable/editor_type_txt_bg"
+            android:fontFamily="@font/abr"
+            android:hint="Message..."
+            android:textColor="#000"
+            android:textColorHint="#919191" />
+
+        <ImageButton
+            android:id="@+id/chat_btn_attach"
+            android:layout_width="35sp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+
+            android:layout_weight=".2"
+            android:background="@android:color/transparent"
+            android:contentDescription="TODO"
+            app:layout_constraintBottom_toBottomOf="@+id/chat_input_message"
+            app:layout_constraintEnd_toStartOf="@id/chat_btn_send_message"
+            app:layout_constraintTop_toTopOf="@+id/chat_input_message"
+            app:srcCompat="@drawable/ic_attachicon" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

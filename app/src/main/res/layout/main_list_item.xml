@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="16dp"
+    style="@style/settingsButtons"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/main_list_item_photo"
+        android:layout_width="55dp"
+        android:layout_height="45dp"
+        android:src="@drawable/ic_avatar"
+        app:civ_border_color="#2a2f64"
+        app:civ_border_width="1sp"
+        android:backgroundTint="#FFF"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/main_list_item_name"
+        style="@style/normalText"
+        android:fontFamily="@font/abr"
+        tools:text="Name item"
+        app:layout_constraintStart_toEndOf="@id/main_list_item_photo"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/main_list_last_message"
+        style="@style/smallText"
+        tools:text="Last message"
+        app:layout_constraintStart_toEndOf="@id/main_list_item_photo"
+        app:layout_constraintTop_toBottomOf="@id/main_list_item_name"/>
+
+    <LinearLayout
+        android:id="@+id/imageView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/main_list_item_photo"
+        app:layout_constraintTop_toBottomOf="@+id/main_list_item_name"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            app:srcCompat="@drawable/ic_photo_message"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="Photo"
+            android:textColor="#6C6C6C">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

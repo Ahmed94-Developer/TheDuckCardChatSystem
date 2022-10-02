@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "346502292318",
+    "project_id": "the-duck-card-chat-system",
+    "storage_bucket": "the-duck-card-chat-system.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346502292318:android:3956c502408845232f25cf",
+        "android_client_info": {
+          "package_name": "com.example.theduckcardchatsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346502292318-6honur2g29t928fm4v10flik0lsotvqq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.theduckcardchatsystem",
+            "certificate_hash": "c81c2d9a05af4b0c22725c613c66dba51f77e51f"
+          }
+        },
+        {
+          "client_id": "346502292318-7lsm79skrdbfdbft9k49l56u2h2brdps.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAElsk7nwT8snA8Y8kToQQWy4OiqLhcKU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346502292318-7lsm79skrdbfdbft9k49l56u2h2brdps.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.HomeFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/home_toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#133E3E"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:titleTextColor="#FFF"
+        android:theme="@style/ThemeOverlay.SearchView"
+        app:layout_constraintTop_toTopOf="parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_id"
+                android:layout_width="33sp"
+                app:civ_border_width="1sp"
+                app:civ_border_color="#FFF"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_profile"
+                android:layout_height="33sp">
+
+            </de.hdodenhof.circleimageview.CircleImageView>
+            <SearchView
+                android:id="@+id/searcher_id"
+                android:layout_width="match_parent"
+                android:theme="@style/ThemeOverlay.SearchView"
+
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:searchIcon="@drawable/ic_search"
+                android:searchHintIcon="@drawable/ic_search_hint"
+                android:closeIcon="@drawable/ic_close_black_24dp"
+                android:layout_toRightOf="@+id/profile_id"
+                android:backgroundTint="@color/white"
+                android:layoutDirection="rtl"
+                android:layout_height="wrap_content">
+
+            </SearchView>
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_chats"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/home_toolbar" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_margin="7sp"
+    style="@style/settingsButtons"
+    android:layout_height="wrap_content">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/add_contacts_item_photo"
+        android:layout_width="40sp"
+        android:layout_height="40sp"
+        android:src="@drawable/ic_avatar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/add_contacts_item_choice"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:visibility="invisible"
+        app:civ_circle_background_color="#FFFF"
+        android:src="@drawable/ic_choice"
+        app:layout_constraintBottom_toBottomOf="@+id/add_contacts_item_photo"
+        app:layout_constraintEnd_toEndOf="@+id/add_contacts_item_photo"/>
+
+    <TextView
+        android:id="@+id/add_contacts_item_name"
+        style="@style/normalText"
+        tools:text="Name item"
+        android:fontFamily="@font/abr"
+        app:layout_constraintStart_toEndOf="@id/add_contacts_item_photo"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/add_contacts_last_message"
+        style="@style/smallText"
+        tools:text="Last message"
+        app:layout_constraintStart_toEndOf="@id/add_contacts_item_photo"
+        app:layout_constraintTop_toBottomOf="@id/add_contacts_item_name"/>
+    <LinearLayout
+        android:id="@+id/imageView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="1dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/add_contacts_item_photo"
+        app:layout_constraintTop_toBottomOf="@+id/add_contacts_item_name"
+        app:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="20dp">
+
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            app:srcCompat="@drawable/ic_photo_message"
+            tools:ignore="VectorDrawableCompat" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:text="Photo"
+            android:textColor="#717171">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

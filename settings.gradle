@@ -1,0 +1,2 @@
+rootProject.name='The Duck Card Chat System'
+include ':app'
